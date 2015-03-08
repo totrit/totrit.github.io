@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Emacs Tips and Tricks</title>
+<!-- 2015-03-08 Sun 14:09 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="马瑞林" />
+<meta  name="description" content="I'm gathering all the cool tricks that I find out about Emacs in this post (mostly for myself because I keep forgetting them again :)..."
+ />
+<meta  name="keywords" content="emacs tips tricks" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Emacs Tips and Tricks</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 简介</a></li>
+<li><a href="#sec-2">2. 编译时Binding代码的产生 :</a>
+<ul>
+<li><a href="#sec-2-1">2.1. DerivedSources.make被make</a></li>
+<li><a href="#sec-2-2">2.2. generate-bindings.pl</a></li>
+<li><a href="#sec-2-3">2.3. CodeGeneratorJS.pm</a></li>
+<li><a href="#sec-2-4">2.4. 产生JSDocument初始化代码</a></li>
+<li><a href="#sec-2-5">2.5. 产生getElementById的Binding代码</a></li>
+<li><a href="#sec-2-6">2.6. Javascript函数调用到Binding代码的映射</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. 运行时调用栈</a></li>
+<li><a href="#sec-4">4. 总结</a></li>
+</ul>
+</div>
+</div>
+<pre class="example">
+#+OPTIONS: ^:{}
+#+SETUPFILE: css/level-0.orgcss
+#+DATE: 2014-01-05
+#+DESCRIPTION: How I use Emacs Org mode as a blogging tool. It's a bit a pain to set it up, but once it works it's great because writing with Org mode is great...
+#+KEYWORDS: org-mode org emacs blogging
+#+TITLE: Webkit Binding原理
+</pre>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 简介</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<b>Webkit</b> <sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>提供了网页解析，排版，渲染能力，使得用户能够看到一个完整的网页。
+除此之外，Webkit还支持JavaScript的执行，对Webkit内部的DOM进行修改。但
+我们知道Webkit本身并没有解析JS脚本的能力，所以就需要JS引擎对JS脚本进行
+解析，然后调用适当的Webkit的接口来使用Webkit的能力（如上面说到的对
+Webkit内部的DOM树进行修改）。
+Webkit通过<a href="https://trac.webkit.org/wiki/WebKitIDL">Webkit IDL</a>来描述其对外的接口，任何JS引擎（不论JSC<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup>还是V8）都需要按照这些描述来调用
+Webkit接口来实现任意一条JS语句所想要的功能。
+本文内容主要有:
+</p>
+<ul class="org-ul">
+<li>Binding代码的产生
+</li>
+<li>一条JS函数调用语句如何调用到Webkit代码
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 编译时Binding代码的产生 :</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+我们下面按照时间顺序描述一下Webkit编译时如何生成了Binding代码的。
+</p>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> DerivedSources.make被make</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Webkit被编译时，DerivedSources.make（MAC系统上）会被make，而它里面会通
+过一个叫做generate<sub>bindings</sub>.pl的脚本来将所有Webkit的idl文件（这就是上
+面说到的Webkit对外的接口描述文件）都会被解析成IDLDocument（通过
+IDLParser.pm这个脚本。IDLDocument包含了一个idl文件中所描述的所有方法和成员
+变量等），然后CodeGeneratorJS.pm（JSC引擎是用这个脚本，V8
+引擎则使用CodeGeneratorV8.pm）脚本又会利用这个IDLDocument生成相应的.h
+文件和.cpp文件。
+</p>
+
+<div class="figure">
+<p><img src="./img/derived-sources-make.jpg" alt="derived-sources-make.jpg" />
+</p>
+<p><span class="figure-number">Figure 1:</span> 每个idl脚本都被调用perl脚本产生了.h文件（脚本里实际上还会产生.cpp，后面会讲）</p>
+</div>
+<ul class="org-ul">
+<li>generator<sub>script</sub>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-perl">generator_script = $(PERL) $(addprefix -I $(WebCore)/, $(sort $(dir $(1)))) $(WebCore)/bindings/scripts/generate-bindings.pl
+</pre>
+</div>
+<p>
+这个pl脚本是产生Binding代码的总入口，下面一小结会简单讲一下其代码逻辑。
+</p>
+<ul class="org-ul">
+<li>JS<sub>BINDINGS</sub><sub>SCRIPTS</sub> 
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-perl">JS_BINDINGS_SCRIPTS = \
+bindings/scripts/CodeGenerator.pm \
+    bindings/scripts/IDLParser.pm \
+    bindings/scripts/generate-bindings.pl \
+    bindings/scripts/preprocessor.pm \
+bindings/scripts/CodeGeneratorJS.pm
+</pre>
+</div>
+<p>
+这里就是用来创造Binding代码的所有的perl脚本了！非常伟大的脚本群。
+</p>
+<ul class="org-ul">
+<li>IDL<sub>ATTRIBUTES</sub><sub>FILE</sub>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-perl">IDL_ATTRIBUTES_FILE = $(WebCore)/bindings/scripts/IDLAttributes.txt
+</pre>
+</div>
+<p>
+这个文件里是所有的IDL
+  属性，这个文件将会被用来验证某个idl文件中的某个idl属性是否是一个未知
+  的idl属性，如果是则Webkit编译报异常。另外提一句：之前提到的Webkit
+  IDL文档中描述了所有这些属性所对应的实际意义。简单来讲，这里面的每个
+  属性将来都会由CodeGeneratorJS.pm解释，并翻译成C++语句。关于C++语句翻
+  译后面会详细讲，这里先按下不表。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> generate-bindings.pl</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+<img src="./img/generate-bindings-pl.jpg" alt="generate-bindings-pl.jpg" />
+<img src="./img/generate-bindings-pl-1.jpg" alt="generate-bindings-pl-1.jpg" />
+从上图可以看出，generate-bindings.pl首先利用IDLParser.pm对.idl接口描述
+文件进行解析产生IDLDocument（有兴趣可以看一下IDLParser.Parse函数的实
+现）；然后再调用CodeGenerator.ProcessDocument函数根据这个IDLDocument产
+生Binding代码，看一下内部实现。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> CodeGeneratorJS.pm</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+<img src="./img/CodeGenerator.pm.jpg" alt="CodeGenerator.pm.jpg" />
+<img src="./img/CodeGeneratorJS.pm.jpg" alt="CodeGeneratorJS.pm.jpg" />
+CodeGenerator.ProcessDocument()函数调用了
+CodeGeneratorJS.generateInterface，而CodeGeneratorJS.generateInterface
+调用了CodeGeneratorJS.generateHeader和CodeGenerateImplementation这两个
+函数来分别产生某个idl文件对应的.h文件和.cpp文件。但由于这两个函数太过
+于繁杂（实际上它里面大多是充斥着各种if-else来对不同的IDL属性进行特殊处
+理，而且有一些很ugly的workaround），所以我们不详细展开它们。但是我们接
+下来会以Document.idl里的getElementById()这个接口为例来看一下这个接口相
+应的Binding代码怎么产生的，好让看官有一个直观的认识。另外，我们还有
+必要看一下与Document类对应的Binding类JSDocument的创建函数是怎样的，因
+为看官一定想知道JSDocument是怎样与Webkit中的Document产生关联，进而通过
+proxy模式来调用Document里的getElementById函数的。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> 产生JSDocument初始化代码</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+先来看一下我们编译出来的JSDocument的创建的代码是什么样子：
+<img src="./img/JSDocument-create-code-like.jpg" alt="JSDocument-create-code-like.jpg" />
+由于这个创建函数是在.h文件中，所以我们先去generateHeader函数去看一下里
+面是怎么产生的这段代码：
+<a href="./img/JSDocument-create.jpg
+">./img/JSDocument-create.jpg
+</a>图中标出的显然就是产生那段代码的代码了。那
+至于为什么那个"else"分支，需要结合Document.idl的interface的属性来看了：
+<a href="./img/Document.idl-attrs.jpg
+">./img/Document.idl-attrs.jpg
+</a>可见，这个接口的属性，只能走最后的"else"分
+支了。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> 产生getElementById的Binding代码</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+还是先来看看getElementById这个idl接口最终产生出来的Binding代码是什么样子：
+<img src="./img/JSDocument.getElementById.jpg" alt="JSDocument.getElementById.jpg" />
+我们依次都能找到这段代码所产生的位置，分别如下：
+<img src="./img/JSDocument.getElementById-1.jpg" alt="JSDocument.getElementById-1.jpg" />
+<img src="./img/JSDocument.getElementById-2.jpg" alt="JSDocument.getElementById-2.jpg" />
+<img src="./img/JSDocument.getElementById-3.jpg" alt="JSDocument.getElementById-3.jpg" />
+<img src="./img/JSDocument.getElementById-4.jpg" alt="JSDocument.getElementById-4.jpg" />
+<img src="./img/JSDocument.getElementById-5.jpg" alt="JSDocument.getElementById-5.jpg" />
+另外，可以注意到这段Binding代码中调用了Document.getElementById函数，
+是一种代理模式（Proxy）。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Javascript函数调用到Binding代码的映射</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+现在知道了Binding代码怎么样调用到了Webkit代码，那么JS引擎又是如何把一
+个Javascript语句（如document.getElementById("SOME<sub>ID</sub>")）转化为对
+Binding代码的调用呢？答案是，提供一个从字符串到函数指针的映射。
+下图是JSDocument中所有函数的映射表，其中就有我们的例子
+getElementById
+<img src="./img/Document.getElementById.map.finalCode-1.jpg" alt="Document.getElementById.map.finalCode-1.jpg" />
+<img src="./img/Document.getElementById.map.finalCode-2.jpg" alt="Document.getElementById.map.finalCode-2.jpg" />
+上面代码的产生可以
+在CodeGeneratorJS.GenerateHashTable和
+CodeGenerateJS.GenerateHashTableValueArray看到，这里就不展开了。
+然后这个函数映射表被注册到了JS虚拟机中：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-C++">void JSDocumentPrototype::finishCreation(VM&amp; vm)
+{
+    Base::finishCreation(vm);
+    {*}reifyStaticProperties(vm, JSDocumentPrototypeTableValues, *this);{*}
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 运行时调用栈</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+上面重点讲述的是编译时Binding代码如何产生的，接下来我们看一下产生出来
+的代码如何在运行时实现了从JavaScript语句到Webkit代码的执行的。
+我们还以JSDocument的创建和getElementById为例，
+写一个简单的html网页来测试：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">&lt;html&gt;
+&lt;body&gt;
+&lt;div id="theDiv"&gt;bla bla&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+        var e = document.getElementById("theDiv");
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+<p>
+看一下JSDocument何时被调用：
+<img src="./img/Binding-runtime-create.jpg" alt="Binding-runtime-create.jpg" />
+</p>
+<div class="org-src-container">
+
+<pre class="src src-C++">JSNode::JSNode(Structure* structure, JSDOMGlobalObject* globalObject, PassRefPtr&lt;Node&gt; impl)
+    : JSDOMWrapper(structure, globalObject)
+    , m_impl(impl.leakRef())
+{
+}
+</pre>
+</div>
+<p>
+可见，JSNode在创建时是通过wrap相应的WebCore Node来产生直接关联的，
+JSNode代理了WebCore::Node来调用其内部的函数。
+</p>
+
+<p>
+接下来具体看一下在执行getElementById时，函数执行栈：
+<img src="./img/Binding-runtime-getElementById.jpg" alt="Binding-runtime-getElementById.jpg" />
+这个栈里没有函数字符串向函数指针的转换，是因为JIT优化了这部分代码。但
+可以大致看到JS代码的evalute到getElementById()函数的调用经过。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 总结</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+本文研究了Binding代码产生原理，以及产生的Binding代码是如何调用到Webkit
+的接口的。但对后者的理解还不透彻，主要是还没研究一个JS引擎如何根据一个
+Javascript变量对应到JS C++代码中的JSNode（或者primative变量）。另外，
+如果要学习V8得Binding机制，可以参考：<a href="https://docs.google.com/a/chromium.org/presentation/d/1OFG81taxgjOGU43sv9WHvPZkt5--KnM6gSijWN8NMcU/edit?disco=AAAAAECHbXY#slide=id.p">V8-Binding</a>
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+<a href="https://www.webkit.org/">https://www.webkit.org/</a>
+</p></div>
+
+<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p class="footpara">
+<a href="https://trac.webkit.org/wiki/JSC">https://trac.webkit.org/wiki/JSC</a>
+</p></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<br><br><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a><div><a href="mailto:totrit@gmail.com">给作者发Email</a></div>
+</div>
+</body>
+</html>
